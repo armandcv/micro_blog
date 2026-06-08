@@ -1,16 +1,22 @@
 [
   {
-    "slug": "bienvenida",
-    "title": "Bienvenida a mi blog",
-    "date": "2026-06-08",
-    "excerpt": "Este es el primer post de mi blog. Aquí escribiré sobre tecnología, ideas y proyectos personales.",
-    "tags": ["personal"]
+    "slug": "Mi_primer_post",
+    "title": "Aqui vamos de nuevo 👀",
+    "date": "2026-06-09",
+    "excerpt": "- Hola a todos , aqui vamos de nuevo a intentar una clase de micro blog , donde ire subiendo cosas que se me ocurran o asi. ",
+    "tags": [
+      "postadmin",
+      "bienvenida"
+    ]
   },
   {
     "slug": "markdown-guia",
     "title": "Guía rápida de Markdown",
     "date": "2026-06-07",
-    "excerpt": "Todo lo que necesitas saber para escribir posts en Markdown: encabezados, listas, código, tablas y más.",
-    "tags": ["tips", "markdown"]
+    "excerpt": "Markdown es un lenguaje de marcado ligero que puedes aprender en minutos. Aquí un resumen de la sintaxis más útil.",
+    "tags": [
+      "tips",
+      "markdown"
+    ]
   }
 ]
