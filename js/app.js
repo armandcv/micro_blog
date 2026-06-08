@@ -1,3 +1,7 @@
+// GitHub repo — change this if renombras el repo
+const GITHUB_REPO = "armandcv/micro_blog";
+const GITHUB_API = `https://api.github.com/repos/${GITHUB_REPO}/contents/posts`;
+
 // Theme management
 const THEME_KEY = "blog-theme";
 
@@ -52,33 +56,51 @@ function formatDate(dateStr) {
   });
 }
 
-// Post list page
+// Post list page — reads directly from GitHub API, no posts.json needed
 async function loadPostList() {
   const container = document.getElementById("post-list");
   if (!container) return;
 
   try {
-    const res = await fetch("posts/posts.json");
-    if (!res.ok) throw new Error("No se pudo cargar la lista de posts.");
-    const posts = await res.json();
+    const res = await fetch(GITHUB_API);
+    if (!res.ok) throw new Error("No se pudo conectar con GitHub API.");
+    const files = await res.json();
 
-    if (posts.length === 0) {
+    const mdFiles = files.filter(f => f.name.endsWith(".md"));
+
+    if (mdFiles.length === 0) {
       container.innerHTML = `
         <div class="empty-state">
           <p>Aún no hay posts publicados.</p>
-          <p>Agrega archivos <code>.md</code> en la carpeta <code>posts/</code> y actualiza <code>posts.json</code>.</p>
+          <p>Agrega archivos <code>.md</code> en la carpeta <code>posts/</code> y haz push.</p>
         </div>`;
       return;
     }
 
-    // Sort by date descending
+    // Fetch frontmatter of each post in parallel
+    const posts = await Promise.all(
+      mdFiles.map(async file => {
+        const raw = await fetch(file.download_url);
+        const text = await raw.text();
+        const { meta } = parseFrontmatter(text);
+        const slug = file.name.replace(/\.md$/, "");
+        return {
+          slug,
+          title: meta.title || slug,
+          date: meta.date || "",
+          excerpt: meta.excerpt || excerptFromBody(text),
+          tags: meta.tags || [],
+        };
+      })
+    );
+
     posts.sort((a, b) => b.date.localeCompare(a.date));
 
     container.innerHTML = posts.map(post => `
       <article class="post-card">
         <div class="post-card-meta">
-          <time datetime="${post.date}">${formatDate(post.date)}</time>
-          ${post.tags ? post.tags.map(t => `<span>#${t}</span>`).join("") : ""}
+          ${post.date ? `<time datetime="${post.date}">${formatDate(post.date)}</time>` : ""}
+          ${post.tags.map(t => `<span>#${t}</span>`).join("")}
         </div>
         <h2 class="post-card-title">
           <a href="post.html?slug=${encodeURIComponent(post.slug)}">${escapeHtml(post.title)}</a>
@@ -90,6 +112,13 @@ async function loadPostList() {
   } catch (err) {
     container.innerHTML = `<div class="error-msg">Error: ${escapeHtml(err.message)}</div>`;
   }
+}
+
+function excerptFromBody(text) {
+  const body = text.replace(/^---\n[\s\S]*?\n---\n?/, "");
+  const lines = body.split("\n").filter(l => l.trim() && !l.startsWith("#"));
+  const first = (lines[0] || "").replace(/\*{1,2}(.+?)\*{1,2}/g, "$1").replace(/\[(.+?)\]\(.+?\)/g, "$1");
+  return first.length > 160 ? first.slice(0, 160) + "…" : first;
 }
 
 // Post page
