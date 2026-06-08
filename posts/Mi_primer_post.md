@@ -1,5 +1,5 @@
 ---
-title: Aqui vamos de nuevo
+title: Aqui vamos de nuevo 👀
 date: 2026-06-09
 author: Armando
 tags: [postadmin, bienvenida]
