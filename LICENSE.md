@@ -5,7 +5,7 @@ Todo el contenido de **Armandovc Blog's** está publicado bajo la licencia:
 **Creative Commons Atribución-NoComercial-CompartirIgual 4.0 Internacional**
 [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 
-Copyright © 2026 Armando Villanueva — armandovc@gmail.com
+Copyright © 2026 Armando Velazco — [armandovc@gmail.com](mailto:armandovc@gmail.com)
 
 ---
 
