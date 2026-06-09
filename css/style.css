@@ -373,8 +373,38 @@ main {
 /* Footer */
 footer {
   border-top: 1px solid var(--border);
-  padding: 1.5rem 0;
+  padding: 1.5rem 0 2rem;
   text-align: center;
   font-size: 0.8rem;
   color: var(--text-muted);
+}
+
+footer p {
+  margin-bottom: 0.4rem;
+}
+
+.footer-copyright {
+  font-weight: 500;
+}
+
+.footer-license {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.footer-license a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.footer-license a:hover {
+  text-decoration: underline;
+}
+
+.footer-license img {
+  vertical-align: middle;
+  opacity: 0.85;
 }
